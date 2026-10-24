@@ -9,10 +9,10 @@
   "categories": [
     {
       "id": "bees",
-      "title": "Бджоли",
-      "icon": "🐝",
-      "linkText": "Дивитись бджіл",
-      "description": "Усі основні бджоли гри за рідкістю та кольором.",
+      "title": "Біквіпи",
+      "icon": "",
+      "linkText": "Дивитись біквіпи",
+      "description": "Біквіпчікі",
       "subs": [
         {
           "id": "common",
@@ -380,14 +380,15 @@
             }
           ]
         }
-      ]
+      ],
+      "image": "uploads/mvmg08xt-beequip-case.webp"
     },
     {
       "id": "fields",
       "title": "Поля",
-      "icon": "🌻",
+      "icon": "",
       "linkText": "Дивитись поля",
-      "description": "Поля по зонах: скільки бджіл треба і які там квіти.",
+      "description": "сині королі червоні підараси",
       "subs": [
         {
           "id": "all-fields",
@@ -511,14 +512,15 @@
             }
           ]
         }
-      ]
+      ],
+      "image": "uploads/mvmg26qu-pine-tree-forest-icon.webp"
     },
     {
       "id": "guides",
       "title": "Гайди",
       "icon": "📘",
       "linkText": "Читати гайди",
-      "description": "Поради для новачків і не тільки.",
+      "description": "Гайди всякі",
       "subs": [
         {
           "id": "beginner",
@@ -617,7 +619,8 @@
             }
           ]
         }
-      ]
+      ],
+      "image": "uploads/mvmg43rl-hivesticker-tabby-from-behind.webp"
     },
     {
       "id": "links",
