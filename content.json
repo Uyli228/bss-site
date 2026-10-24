@@ -10,9 +10,9 @@
     {
       "id": "bees",
       "title": "Біквіпи",
-      "icon": "",
+      "icon": "🐝",
       "linkText": "Дивитись біквіпи",
-      "description": "Біквіпчікі",
+      "description": "Біквіпчики",
       "subs": [
         {
           "id": "common",
@@ -381,14 +381,14 @@
           ]
         }
       ],
-      "image": "uploads/mvmg08xt-beequip-case.webp"
+      "image": "uploads/mvmg5b0i-beequip-case.webp"
     },
     {
       "id": "fields",
       "title": "Поля",
-      "icon": "",
+      "icon": "🌻",
       "linkText": "Дивитись поля",
-      "description": "сині королі червоні підараси",
+      "description": "синя пильця топ а червоні сосуть хуй",
       "subs": [
         {
           "id": "all-fields",
@@ -513,14 +513,14 @@
           ]
         }
       ],
-      "image": "uploads/mvmg26qu-pine-tree-forest-icon.webp"
+      "image": "uploads/mvmg67em-hivesticker-pine-tree-forest-stamp.webp"
     },
     {
       "id": "guides",
       "title": "Гайди",
       "icon": "📘",
       "linkText": "Читати гайди",
-      "description": "Гайди всякі",
+      "description": "Поради для новачків і не тільки.",
       "subs": [
         {
           "id": "beginner",
@@ -620,48 +620,7 @@
           ]
         }
       ],
-      "image": "uploads/mvmg43rl-hivesticker-tabby-from-behind.webp"
-    },
-    {
-      "id": "links",
-      "title": "Посилання",
-      "icon": "🔗",
-      "linkText": "Відкрити",
-      "description": "Гра, вікі, коди та наші канали.",
-      "subs": [
-        {
-          "id": "useful",
-          "title": "Корисні посилання",
-          "icon": "⭐",
-          "description": "",
-          "blocks": [
-            {
-              "type": "links",
-              "heading": "",
-              "items": [
-                {
-                  "title": "Грати в Bee Swarm Simulator",
-                  "url": "https://www.roblox.com/games/1537690962/Bee-Swarm-Simulator",
-                  "icon": "🎮",
-                  "note": "Сторінка гри на Roblox"
-                },
-                {
-                  "title": "Bee Swarm Simulator Wiki",
-                  "url": "https://bee-swarm-simulator.fandom.com/wiki/Bee_Swarm_Simulator_Wiki",
-                  "icon": "📚",
-                  "note": "Бджоли, поля, квести, предмети"
-                },
-                {
-                  "title": "Коди (Wiki)",
-                  "url": "https://bee-swarm-simulator.fandom.com/wiki/Codes",
-                  "icon": "🎁",
-                  "note": "Актуальні промокоди"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "image": "uploads/mvmg6jx9-hivesticker-tabby-from-behind.webp"
     }
   ]
 }
