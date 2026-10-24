@@ -1,0 +1,120 @@
+backend:
+  name: github
+  repo: Uyli228/bss-site
+  branch: main
+  commit_messages:
+    create: "Додано {{collection}}: {{slug}}"
+    update: "Оновлено {{collection}}: {{slug}}"
+    delete: "Видалено {{collection}}: {{slug}}"
+    uploadMedia: "Завантажено {{path}}"
+    deleteMedia: "Видалено {{path}}"
+
+site_url: https://uyli228.github.io/bss-site/
+display_url: https://uyli228.github.io/bss-site/
+
+# Усі завантажені картинки потрапляють у галерею
+media_folder: assets/gallery
+public_folder: /bss-site/assets/gallery
+
+collections:
+  - name: posts
+    label: Записи
+    label_singular: Запис
+    description: Гайди, таблиці, новини. Таблиці можна вставляти кнопкою «Таблиця» в редакторі або писати через |
+    folder: _posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [title]
+    fields:
+      - { name: title, label: Назва, widget: string }
+      - name: categories
+        label: Категорія
+        widget: select
+        default: гайди
+        options: [таблиці, гайди, новини, інше]
+      - { name: description, label: Короткий опис, widget: string, required: false }
+      - { name: author, label: Автор, widget: string, required: false }
+      - { name: body, label: Текст, widget: markdown }
+
+  - name: data
+    label: Довідники
+    files:
+      - name: links
+        label: Посилання
+        file: _data/links.yml
+        fields:
+          - name: groups
+            label: Групи посилань
+            widget: list
+            root: true
+            summary: "{{fields.group}}"
+            fields:
+              - { name: group, label: Назва групи, widget: string }
+              - name: items
+                label: Посилання
+                widget: list
+                summary: "{{fields.name}}"
+                fields:
+                  - { name: name, label: Назва, widget: string }
+                  - { name: url, label: Адреса (https://...), widget: string }
+                  - { name: icon, label: Емодзі, widget: string, required: false }
+                  - { name: note, label: Опис, widget: string, required: false }
+
+      - name: bees
+        label: Бджоли
+        file: _data/bees.yml
+        fields:
+          - name: bees
+            label: Бджоли
+            widget: list
+            root: true
+            summary: "{{fields.name}} · {{fields.rarity}} · {{fields.color}}"
+            fields:
+              - { name: name, label: Назва, widget: string }
+              - name: rarity
+                label: Рідкість
+                widget: select
+                options:
+                  - { label: Звичайна, value: common }
+                  - { label: Рідкісна, value: rare }
+                  - { label: Епічна, value: epic }
+                  - { label: Легендарна, value: legendary }
+                  - { label: Міфічна, value: mythic }
+                  - { label: Івентова, value: event }
+              - name: color
+                label: Колір
+                widget: select
+                options:
+                  - { label: Червона, value: red }
+                  - { label: Синя, value: blue }
+                  - { label: Біла, value: white }
+              - { name: note, label: Нотатка, widget: string, required: false }
+
+      - name: fields
+        label: Поля
+        file: _data/fields.yml
+        fields:
+          - name: zones
+            label: Зони
+            widget: list
+            root: true
+            summary: "{{fields.zone}}"
+            fields:
+              - { name: zone, label: Назва зони, widget: string }
+              - { name: bees, label: Скільки бджіл треба, widget: number, value_type: int }
+              - name: fields
+                label: Поля
+                widget: list
+                summary: "{{fields.emoji}} {{fields.name}}"
+                fields:
+                  - { name: name, label: Назва, widget: string }
+                  - { name: emoji, label: Емодзі, widget: string }
+                  - name: color
+                    label: Квіти
+                    widget: select
+                    options:
+                      - { label: Червоні, value: red }
+                      - { label: Сині, value: blue }
+                      - { label: Білі, value: white }
+                      - { label: Змішані, value: mixed }
