@@ -85,101 +85,77 @@
       "description": "Поради для новачків і не тільки.",
       "subs": [
         {
-          "id": "beginner",
-          "title": "Гайд для новачка",
-          "icon": "🌱",
-          "description": "З чого почати: перші кроки й на що витрачати мед.",
+          "id": "mvmi194ni7io",
+          "title": "Сині гайди",
+          "description": "",
+          "icon": "📄",
           "blocks": [
             {
-              "type": "text",
-              "heading": "Основний цикл гри",
-              "text": "1. Стаєш на поле і збираєш пилок бджолами та інструментом.\n2. Коли рюкзак повний — біжиш до вулика і перетворюєш пилок на **мед**.\n3. За мед купуєш кращий інструмент, рюкзак і нових бджіл. Більше бджіл — швидше збір — більше меду."
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "Blue hive guide",
+                  "url": "https://docs.google.com/document/d/1NmaLoyxO-Lb8qTGjGNcXjC-73yInSxhsNTl2f8S4HpQ/edit?tab=t.0",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
             },
             {
-              "type": "text",
-              "heading": "Перші кроки",
-              "text": "- **Бери квести у ведмедів** — вони дають мед, предмети й квитки.\n- **Купуй яйця й нові слоти у вулику.** Кількість бджіл відкриває нові зони: 5, 10, 15, 25 і 35.\n- **Апгрейди рюкзака й інструмента** дають найбільший приріст на старті.\n- **Вводь промокоди** — актуальні є у вікі.\n- **Годуй бджіл** — це підвищує їхній рівень."
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "RBC Boost Guide",
+                  "url": "https://docs.google.com/document/d/1R6Cd2IaVJnCwMNIQiogLNoTRujYhcp6hSBxPhkWkOfI/edit?tab=t.0",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
             },
             {
-              "type": "table",
-              "heading": "Чекліст",
-              "rows": [
-                [
-                  "Ціль",
-                  "Навіщо"
-                ],
-                [
-                  "Купити новий рюкзак",
-                  "Більше пилку за похід"
-                ],
-                [
-                  "Купити кращий інструмент",
-                  "Швидший збір"
-                ],
-                [
-                  "Набрати 5 бджіл",
-                  "Spider, Bamboo, Strawberry"
-                ],
-                [
-                  "Набрати 10 бджіл",
-                  "Pineapple, Stump"
-                ],
-                [
-                  "Набрати 15 бджіл",
-                  "Rose, Pine Tree, Cactus, Pumpkin"
-                ],
-                [
-                  "Ввести всі коди",
-                  "Безкоштовні предмети"
-                ]
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "RBC Blessing Guide ",
+                  "url": "https://docs.google.com/document/d/1sykJRqvz5BBHgitsgpG7eOGg_qmCdWLWm8IgJg85DaY/edit",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
+            },
+            {
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "Honey Boosting Guide",
+                  "url": "https://www.youtube.com/watch?v=t6j-cgqEMeY",
+                  "icon": "🔗",
+                  "note": ""
+                }
               ]
             }
-          ]
+          ],
+          "image": "uploads/mvmi1pcv-hivesticker-cool-backpack.webp"
         },
         {
-          "id": "hive-color",
-          "title": "Як вибрати колір вулика",
-          "icon": "🎨",
-          "description": "Червоний, синій чи білий — у чому різниця.",
-          "blocks": [
-            {
-              "type": "image",
-              "heading": "",
-              "image": "uploads/hive-example.svg",
-              "caption": "Червоний · синій · білий"
-            },
-            {
-              "type": "text",
-              "heading": "",
-              "text": "Кожна бджола краще збирає пилок свого кольору, а частина здібностей посилюється, коли у вулику багато бджіл одного кольору. Тому з часом вулик будують під один колір."
-            },
-            {
-              "type": "table",
-              "heading": "Порівняння",
-              "rows": [
-                [
-                  "Колір",
-                  "Сильні сторони",
-                  "Де фармити"
-                ],
-                [
-                  "🔴 Червоний",
-                  "Урон по мобах, швидкий червоний збір",
-                  "Rose, Strawberry, Mushroom, Pepper"
-                ],
-                [
-                  "🔵 Синій",
-                  "Бусти для всього вулика",
-                  "Pine Tree, Bamboo, Blue Flower, Stump"
-                ],
-                [
-                  "⚪ Білий",
-                  "Універсальний, багато меду",
-                  "Pineapple, Sunflower, Coconut, Pumpkin"
-                ]
-              ]
-            }
-          ]
+          "id": "mvmi1zkrkq9t",
+          "title": "Червоні гайди",
+          "description": "",
+          "icon": "📄",
+          "blocks": [],
+          "image": "uploads/mvmi22iw-hivesticker-dark-scythe.webp"
+        },
+        {
+          "id": "mvmi24ip4pfh",
+          "title": "Білі гайди",
+          "description": "",
+          "icon": "📄",
+          "blocks": [],
+          "image": "uploads/mvmi2aca-hivesticker-gummyballer.webp"
         }
       ],
       "image": "uploads/mvmg6jx9-hivesticker-tabby-from-behind.webp"
