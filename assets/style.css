@@ -233,7 +233,14 @@ a.mini-card img { cursor: pointer; }
 .picker { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .pick-preview { width: 84px; height: 84px; flex: none; display: grid; place-items: center; background: var(--bg); border: 1px dashed var(--line-2); border-radius: 10px; overflow: hidden; font-size: .78rem; text-align: center; }
 .pick-preview img { width: 100%; height: 100%; object-fit: contain; }
-.pick-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pick-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.picker { border-radius: 12px; transition: outline-color .15s; outline: 2px dashed transparent; outline-offset: 6px; }
+.pick-url-row { display: flex; gap: 6px; width: 100%; }
+.pick-url { flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 7px 10px; color: var(--text); font: inherit; font-size: .9rem; outline: none; }
+.pick-url:focus { border-color: var(--accent); }
+.drop-hover { outline: 3px dashed var(--accent) !important; outline-offset: 4px; }
+.page.drop-hover { outline-offset: 12px; border-radius: 16px; }
+.drop-hint { width: 100%; margin: 6px 0 0; color: var(--muted); font-size: .9rem; }
 
 .list-ed { display: flex; flex-direction: column; gap: 10px; }
 .list-row { display: flex; gap: 10px; padding: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }

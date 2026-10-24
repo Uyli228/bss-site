@@ -36,6 +36,7 @@ function h(tag, attrs, ...children) {
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const imgUrl = (p) => state.localImages[p] || p;
+const hasImageData = (dt) => dt && [...dt.types].some((t) => t === 'Files' || t === 'text/uri-list' || t === 'text/html');
 
 function toast(msg, bad) {
   const t = $('[data-toast]');
@@ -145,6 +146,107 @@ async function uploadImage(file) {
   return path;
 }
 
+/* ---------- Картинки з інших сайтів (перетягування, вставка, посилання) ---------- */
+// Посилання з фандом-вікі ведемо на оригінал, без зменшених копій
+function cleanImageUrl(url) {
+  return url.replace(/\/revision\/latest\/(scale-to-width-down|scale-to-width|smart|thumbnail|top-crop|zoom-crop)[^?]*/, '/revision/latest');
+}
+
+function nameFromUrl(url) {
+  try {
+    const parts = new URL(url).pathname.split('/').filter(Boolean);
+    const i = parts.indexOf('revision');
+    return decodeURIComponent(i > 0 ? parts[i - 1] : parts[parts.length - 1] || 'image');
+  } catch (e) { return 'image'; }
+}
+
+// "Vicious_Bee.png" → "Vicious Bee"
+const titleFromName = (name) => name.replace(/\.\w+$/, '').replace(/[_-]+/g, ' ').trim();
+
+// Дістає картинки з перетягування або вставки: файли, <img> з іншого сайту або посилання
+function imageSources(dt) {
+  const files = [...(dt.files || [])].filter((f) => f.type.startsWith('image/'));
+  if (files.length) return files.map((file) => ({ file, name: file.name }));
+  const html = dt.getData('text/html');
+  if (html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const urls = [...doc.querySelectorAll('img')].map((img) => img.getAttribute('data-src') || img.getAttribute('src')).filter((u) => /^https?:/.test(u || ''));
+    if (urls.length) return [...new Set(urls)].map((u) => ({ url: cleanImageUrl(u), name: nameFromUrl(u) }));
+  }
+  const uri = (dt.getData('text/uri-list') || dt.getData('text/plain') || '').split('\n').map((s) => s.trim()).filter((s) => /^https?:\/\//.test(s));
+  return uri.map((u) => ({ url: cleanImageUrl(u), name: nameFromUrl(u) }));
+}
+
+// Зберігає картинку в репозиторій. Якщо сайт не дає її скачати — лишає пряме посилання.
+async function storeImage(src) {
+  if (src.file) return uploadImage(src.file);
+  try {
+    // фандом віддає 404 на запити з чужим Referer, а браузер може закешувати ту 404
+    const res = await fetch(src.url, { referrerPolicy: 'no-referrer', cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    const blob = await res.blob();
+    if (!blob.type.startsWith('image/')) throw new Error('не картинка');
+    const ext = blob.type.split('/')[1].replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+    return await uploadImage(new File([blob], titleFromName(src.name) + '.' + ext, { type: blob.type }));
+  } catch (e) {
+    console.warn('Не вдалося скопіювати, лишаю посилання', src.url, e);
+    return src.url;
+  }
+}
+
+async function storeImages(sources) {
+  const paths = [];
+  for (let i = 0; i < sources.length; i++) {
+    toast(`Завантажую картинки… ${i + 1} з ${sources.length}`);
+    paths.push({ path: await storeImage(sources[i]), title: titleFromName(sources[i].name) });
+  }
+  toast(sources.length > 1 ? `Додано ${sources.length} картинок ✓` : 'Картинку додано ✓');
+  return paths;
+}
+
+// Перетягування на сторінку в режимі редагування: шукаємо найближчий елемент з _onDrop
+function dropTarget(el) {
+  for (; el && el !== document; el = el.parentNode) if (el._onDrop) return el;
+  return null;
+}
+let dropHover = null;
+function setDropHover(el) {
+  if (dropHover === el) return;
+  if (dropHover) dropHover.classList.remove('drop-hover');
+  dropHover = el;
+  if (el) el.classList.add('drop-hover');
+}
+document.addEventListener('dragover', (e) => {
+  if (!state.editing || !hasImageData(e.dataTransfer)) return;
+  e.preventDefault();
+  setDropHover(dropTarget(e.target));
+});
+document.addEventListener('dragleave', (e) => { if (!e.relatedTarget) setDropHover(null); });
+document.addEventListener('drop', async (e) => {
+  if (!state.editing || !hasImageData(e.dataTransfer)) return;
+  e.preventDefault();
+  const target = dropTarget(e.target);
+  setDropHover(null);
+  if (e.target.closest('.overlay')) return; // у вікні редагування працює своя зона
+  if (!target) return toast('Перетягни картинку на картку, блок або на сторінку підкатегорії', true);
+  const sources = imageSources(e.dataTransfer);
+  if (!sources.length) return toast('Тут немає картинки', true);
+  const images = await storeImages(sources);
+  target._onDrop(images);
+  markDirty();
+});
+// Ctrl+V картинки прямо на сторінку підкатегорії
+document.addEventListener('paste', async (e) => {
+  if (!state.editing || e.target.closest('input, textarea, .overlay')) return;
+  const target = $('.page');
+  if (!target || !target._onDrop) return;
+  const sources = imageSources(e.clipboardData).filter((s) => s.file);
+  if (!sources.length) return;
+  e.preventDefault();
+  target._onDrop(await storeImages(sources));
+  markDirty();
+});
+
 /* ---------- Роутинг ---------- */
 function route() {
   const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
@@ -215,13 +317,15 @@ function tools(list, index, onEdit, label) {
 }
 
 function card(item, href, linkText, list, i, onEdit) {
-  return h('a', { class: 'card', href },
+  const el = h('a', { class: 'card', href },
     tools(list, i, onEdit, `«${item.title}»`),
     media(item),
     h('h3', {}, item.title),
     item.description ? h('p', {}, item.description) : null,
     h('span', { class: 'card-link' }, linkText, h('span', { class: 'chev' }, '›'))
   );
+  el._onDrop = (imgs) => { item.image = imgs[0].path; };
+  return el;
 }
 
 function addCard(text, onclick) {
@@ -280,7 +384,7 @@ function renderCategory(cat) {
 
 function renderSub(cat, sub) {
   sub.blocks = sub.blocks || [];
-  return h('div', { class: 'page' },
+  const page = h('div', { class: 'page' },
     crumbs({ text: 'Головна', href: '#/' }, { text: cat.title, href: '#/c/' + cat.id }, { text: sub.title }),
     h('header', { class: 'page-head' },
       media(sub, 'page-media'),
@@ -291,19 +395,32 @@ function renderSub(cat, sub) {
       )
     ),
     sub.blocks.length || state.editing ? null : h('p', { class: 'empty' }, 'Тут поки порожньо 🐝'),
-    sub.blocks.map((b, i) => h('section', { class: 'block block-' + b.type },
-      tools(sub.blocks, i, () => editBlock(b), 'цей блок'),
-      b.heading ? h('h2', { class: 'block-title' }, b.heading) : null,
-      renderBlock(b)
-    )),
+    sub.blocks.map((b, i) => {
+      const el = h('section', { class: 'block block-' + b.type },
+        tools(sub.blocks, i, () => editBlock(b), 'цей блок'),
+        b.heading ? h('h2', { class: 'block-title' }, b.heading) : null,
+        renderBlock(b)
+      );
+      if (b.type === 'cards') el._onDrop = (imgs) => b.items.push(...imgs.map((x) => ({ image: x.path, title: x.title, subtitle: '' })));
+      if (b.type === 'image') el._onDrop = (imgs) => { b.image = imgs[0].path; };
+      return el;
+    }),
     state.editing ? h('div', { class: 'add-block' },
       h('span', {}, 'Додати блок:'),
       BLOCK_TYPES.map((t) => h('button', { class: 'btn ghost', onclick: () => {
         const b = t.make();
         editBlock(b, () => sub.blocks.push(b));
-      } }, t.icon + ' ' + t.label))
+      } }, t.icon + ' ' + t.label)),
+      h('p', { class: 'drop-hint' }, '💡 Перетягни картинки з іншої вкладки (наприклад, з вікі) прямо сюди або на будь-який блок. Також працює Ctrl+V.')
     ) : null
   );
+  // Картинки, кинуті на сторінку: одна → блок «Картинка», кілька → блок «Картки»
+  page._onDrop = (imgs) => sub.blocks.push(imgs.length === 1
+    ? { type: 'image', heading: '', image: imgs[0].path, caption: '' }
+    : { type: 'cards', heading: '', items: imgs.map((x) => ({ image: x.path, title: x.title, subtitle: '' })) });
+  const head = page.querySelector('.page-media');
+  if (head) head._onDrop = (imgs) => { sub.image = imgs[0].path; };
+  return page;
 }
 
 /* ---------- Блоки ---------- */
@@ -396,23 +513,44 @@ function imagePicker(value, onChange, allowIcon) {
   const showPreview = () => preview.replaceChildren(current ? h('img', { src: imgUrl(current), alt: '' }) : h('span', { class: 'muted' }, 'Без картинки'));
   showPreview();
   const status = h('span', { class: 'muted small' });
-  const file = h('input', { type: 'file', accept: 'image/*', hidden: true, onchange: async () => {
-    if (!file.files[0]) return;
+  const take = async (src) => {
     status.textContent = 'Завантажую…';
     try {
-      current = await uploadImage(file.files[0]);
+      current = await storeImage(src);
       onChange(current);
-      status.textContent = 'Готово ✓';
+      status.textContent = /^https?:/.test(current) ? 'Додано як посилання' : 'Готово ✓';
       showPreview();
     } catch (e) { status.textContent = 'Помилка: ' + e.message; }
+  };
+  const file = h('input', { type: 'file', accept: 'image/*', hidden: true, onchange: async () => {
+    if (file.files[0]) await take({ file: file.files[0], name: file.files[0].name });
     file.value = '';
   } });
-  return h('div', { class: 'picker' }, preview,
+  const url = h('input', { type: 'text', class: 'pick-url', placeholder: 'або встав посилання / Ctrl+V картинку',
+    onpaste: (e) => {
+      const src = imageSources(e.clipboardData)[0];
+      if (src && src.file) { e.preventDefault(); take(src); }
+    },
+    onkeydown: (e) => { if (e.key === 'Enter') { e.preventDefault(); go(); } } });
+  const go = () => { const u = url.value.trim(); if (/^https?:\/\//.test(u)) { take({ url: cleanImageUrl(u), name: nameFromUrl(u) }); url.value = ''; } };
+  const picker = h('div', { class: 'picker' }, preview,
     h('div', { class: 'pick-actions' },
-      h('button', { class: 'btn small', type: 'button', onclick: () => file.click() }, current ? 'Замінити' : 'Завантажити'),
+      h('button', { class: 'btn small', type: 'button', onclick: () => file.click() }, 'Вибрати файл'),
       h('button', { class: 'btn ghost small', type: 'button', onclick: () => { current = ''; onChange(''); showPreview(); } }, 'Прибрати'),
-      status, file)
+      status, file,
+      h('div', { class: 'pick-url-row' }, url, h('button', { class: 'btn ghost small', type: 'button', onclick: go }, 'OK'))
+    )
   );
+  // Перетягування картинки прямо на поле
+  picker.addEventListener('dragover', (e) => { if (hasImageData(e.dataTransfer)) { e.preventDefault(); picker.classList.add('drop-hover'); } });
+  picker.addEventListener('dragleave', () => picker.classList.remove('drop-hover'));
+  picker.addEventListener('drop', (e) => {
+    e.preventDefault();
+    picker.classList.remove('drop-hover');
+    const src = imageSources(e.dataTransfer)[0];
+    if (src) take(src);
+  });
+  return picker;
 }
 
 function field(f, values) {
