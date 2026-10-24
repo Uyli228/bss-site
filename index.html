@@ -2,54 +2,84 @@
 layout: default
 ---
 <section class="hero">
+  <i class="cloud c1"></i><i class="cloud c2"></i>
   <div class="hero-text">
-    <h1>Привіт, бджолярі! 🐝</h1>
+    <h1 class="outlined">Вулик</h1>
     <p>{{ site.description }}</p>
     <div class="hero-actions">
-      <a class="btn" href="{{ '/posts/' | relative_url }}">Дивитись записи</a>
-      <a class="btn ghost" href="{{ '/links/' | relative_url }}">Корисні посилання</a>
+      <a class="btn" href="{{ '/bees/' | relative_url }}">{% include icon.html name="bee" %}Бджоли</a>
+      <a class="btn white" href="{{ '/posts/' | relative_url }}">{% include icon.html name="book" %}Гайди й таблиці</a>
     </div>
   </div>
   <div class="hero-art" aria-hidden="true">
-    <div class="hex h1">🍯</div>
-    <div class="hex h2">🐝</div>
-    <div class="hex h3">🌻</div>
-    <div class="hex h4">🌹</div>
-    <div class="hex h5">🍍</div>
+    <svg viewBox="0 0 340 260">
+      <g stroke="#2b1d06" stroke-width="4" stroke-linejoin="round">
+        <path d="M110 70l42 24v48l-42 24-42-24V94z" fill="#ffc21a"/>
+        <path d="M194 70l42 24v48l-42 24-42-24V94z" fill="#ffd84d"/>
+        <path d="M278 70l42 24v48l-42 24-42-24V94z" fill="#f29d00"/>
+        <path d="M152 142l42 24v48l-42 24-42-24v-48z" fill="#ffd84d"/>
+        <path d="M236 142l42 24v48l-42 24-42-24v-48z" fill="#ffc21a"/>
+      </g>
+      <g fill="#2b1d06" opacity=".18">
+        <path d="M110 84l30 17v34l-30 17-30-17v-34z"/>
+        <path d="M236 156l30 17v34l-30 17-30-17v-34z"/>
+      </g>
+      <g class="bee-fly">
+        <g transform="translate(18 18)">
+          <ellipse cx="34" cy="20" rx="15" ry="10" fill="#fff" stroke="#2b1d06" stroke-width="3.5" transform="rotate(-25 34 20)"/>
+          <ellipse cx="64" cy="20" rx="15" ry="10" fill="#fff" stroke="#2b1d06" stroke-width="3.5" transform="rotate(25 64 20)"/>
+          <ellipse cx="49" cy="46" rx="28" ry="25" fill="#ffd23f" stroke="#2b1d06" stroke-width="4"/>
+          <path d="M24 40h50M23 53h52" stroke="#2b1d06" stroke-width="7"/>
+          <ellipse cx="40" cy="32" rx="3.5" ry="4.5" fill="#2b1d06"/><ellipse cx="58" cy="32" rx="3.5" ry="4.5" fill="#2b1d06"/>
+        </g>
+      </g>
+    </svg>
   </div>
 </section>
 
-<section class="stats">
-  <div class="stat"><b>{{ site.posts | size }}</b><span>записів</span></div>
-  {% assign imgs = site.static_files | where_exp: "f", "f.path contains '/assets/gallery/'" %}
-  <div class="stat"><b>{{ imgs | size }}</b><span>картинок</span></div>
-  {% assign link_count = 0 %}
-  {% for g in site.data.links %}{% assign link_count = link_count | plus: g.items.size %}{% endfor %}
-  <div class="stat"><b>{{ link_count }}</b><span>посилань</span></div>
+{% assign imgs = site.static_files | where_exp: "f", "f.path contains '/assets/gallery/'" %}
+{% assign field_count = 0 %}{% for z in site.data.fields %}{% assign field_count = field_count | plus: z.fields.size %}{% endfor %}
+{% assign link_count = 0 %}{% for g in site.data.links %}{% assign link_count = link_count | plus: g.items.size %}{% endfor %}
+
+<section class="tiles">
+  <a class="panel tile" href="{{ '/bees/' | relative_url }}">
+    <span class="tile-icon" style="background:#ffc21a">{% include icon.html name="bee" %}</span>
+    <b>Бджоли</b><span>{{ site.data.bees | size }} бджіл з фільтрами</span>
+  </a>
+  <a class="panel tile" href="{{ '/fields/' | relative_url }}">
+    <span class="tile-icon" style="background:#78d651">{% include icon.html name="flower" %}</span>
+    <b>Поля</b><span>{{ field_count }} полів по зонах</span>
+  </a>
+  <a class="panel tile" href="{{ '/posts/' | relative_url }}">
+    <span class="tile-icon" style="background:#5ab7f2">{% include icon.html name="book" %}</span>
+    <b>Записи</b><span>{{ site.posts | size }} гайдів і таблиць</span>
+  </a>
+  <a class="panel tile" href="{{ '/gallery/' | relative_url }}">
+    <span class="tile-icon" style="background:#f7a39b">{% include icon.html name="image" %}</span>
+    <b>Галерея</b><span>{{ imgs | size }} картинок</span>
+  </a>
+  <a class="panel tile" href="{{ '/links/' | relative_url }}">
+    <span class="tile-icon" style="background:#c7a5f2">{% include icon.html name="link" %}</span>
+    <b>Посилання</b><span>{{ link_count }} корисних посилань</span>
+  </a>
 </section>
 
-<section>
-  <div class="section-head">
-    <h2>Свіжі записи</h2>
-    <a href="{{ '/posts/' | relative_url }}">Усі →</a>
-  </div>
-  <div class="grid">
-    {% for post in site.posts limit: 6 %}
-      {% include post-card.html post=post %}
-    {% endfor %}
-  </div>
-</section>
+<div class="section-head">
+  <h2>Свіжі записи</h2>
+  <a class="more" href="{{ '/posts/' | relative_url }}">Усі записи {% include icon.html name="arrow" %}</a>
+</div>
+<div class="grid">
+  {% for post in site.posts limit: 3 %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>
 
-<section>
-  <div class="section-head">
-    <h2>Швидкі посилання</h2>
-    <a href="{{ '/links/' | relative_url }}">Усі →</a>
-  </div>
-  <div class="quick-links">
-    {% for group in site.data.links limit: 1 %}
-      {% for l in group.items %}
-        <a class="pill" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.icon | default: "🔗" }} {{ l.name }}</a>
-      {% endfor %}
-    {% endfor %}
-  </div>
-</section>
+<div class="section-head">
+  <h2>Швидкі посилання</h2>
+  <a class="more" href="{{ '/links/' | relative_url }}">Усі {% include icon.html name="arrow" %}</a>
+</div>
+<div class="links-grid">
+  {% for l in site.data.links[0].items %}
+    {% include link-card.html link=l %}
+  {% endfor %}
+</div>

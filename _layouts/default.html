@@ -3,28 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
   <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap header-inner">
+  {% assign p = page.url %}
+  <header class="topbar">
+    <div class="wrap topbar-inner">
       <a class="logo" href="{{ '/' | relative_url }}">
-        <img src="{{ '/assets/img/favicon.svg' | relative_url }}" alt="" width="34" height="34">
-        <span>{{ site.title }}</span>
+        <img src="{{ '/assets/img/favicon.svg' | relative_url }}" alt="" width="40" height="40">
+        <span class="outlined">{{ site.title }}</span>
       </a>
-      <button class="menu-btn" aria-label="Меню" onclick="document.body.classList.toggle('menu-open')">☰</button>
+      <button class="menu-btn" aria-label="Меню" data-menu>{% include icon.html name="menu" %}</button>
       <nav class="nav">
-        {% assign p = page.url %}
-        <a href="{{ '/' | relative_url }}" {% if p == '/' %}class="active"{% endif %}>Головна</a>
-        <a href="{{ '/posts/' | relative_url }}" {% if p contains '/posts/' %}class="active"{% endif %}>Записи</a>
-        <a href="{{ '/gallery/' | relative_url }}" {% if p == '/gallery/' %}class="active"{% endif %}>Галерея</a>
-        <a href="{{ '/links/' | relative_url }}" {% if p == '/links/' %}class="active"{% endif %}>Посилання</a>
+        {% for item in site.nav %}
+          {% assign url = item.url | relative_url %}
+          {% assign on = false %}
+          {% if item.url == '/' %}{% if p == '/' %}{% assign on = true %}{% endif %}{% elsif p contains item.url %}{% assign on = true %}{% endif %}
+          <a href="{{ url }}" {% if on %}class="active"{% endif %}>{% include icon.html name=item.icon %}<span>{{ item.title }}</span></a>
+        {% endfor %}
       </nav>
     </div>
   </header>
@@ -33,9 +36,10 @@
     {{ content }}
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      🐝 Зроблено для своїх. Сайт фанатський і не пов'язаний з Onett чи Roblox.
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>🐝 {{ site.title }} — фанатський сайт для своїх</span>
+      <span>Не пов'язаний з Onett чи Roblox</span>
     </div>
   </footer>
 

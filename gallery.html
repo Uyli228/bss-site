@@ -3,15 +3,19 @@ layout: default
 title: Галерея
 permalink: /gallery/
 ---
-<h1 class="page-title">Галерея</h1>
-<p class="lead">Скріни, мапи, схеми вуликів. Щоб додати картинку — просто закинь її в папку <code>assets/gallery</code>.</p>
+<div class="page-head">
+  <h1>Галерея</h1>
+  <p>Скріни, мапи, схеми вуликів. Натисни на картинку, щоб відкрити на весь екран.</p>
+</div>
+
+<div class="panel howto">{% include icon.html name="image" %}<span>Щоб додати картинку: на GitHub відкрий папку <code>assets/gallery</code> → <b>Add file → Upload files</b>. Назва файлу стане підписом.</span></div>
 
 {% assign imgs = site.static_files | where_exp: "f", "f.path contains '/assets/gallery/'" | sort: "modified_time" | reverse %}
 <div class="gallery">
   {% for f in imgs %}
     {% assign ext = f.extname | downcase %}
     {% if ext == ".png" or ext == ".jpg" or ext == ".jpeg" or ext == ".gif" or ext == ".webp" or ext == ".svg" %}
-      <figure class="g-item" data-full="{{ f.path | relative_url }}">
+      <figure class="panel g-item" data-full="{{ f.path | relative_url }}">
         <img src="{{ f.path | relative_url }}" alt="{{ f.basename }}" loading="lazy">
         <figcaption>{{ f.basename | replace: "-", " " | replace: "_", " " }}</figcaption>
       </figure>
@@ -21,5 +25,5 @@ permalink: /gallery/
 
 <div class="lightbox" data-lightbox hidden>
   <img alt="">
-  <a class="lb-open" target="_blank" rel="noopener">Відкрити оригінал ↗</a>
+  <a target="_blank" rel="noopener">Відкрити оригінал ↗</a>
 </div>

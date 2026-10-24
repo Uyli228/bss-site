@@ -51,6 +51,12 @@ cover: /assets/gallery/моя-картинка.png   # необов'язково
 
 Відступи (пробіли) важливі — копіюй сусідній рядок.
 
+## 🐝 Бджоли й поля
+
+- Бджоли: `_data/bees.yml` — рядок `- { name: "Назва Bee", rarity: epic, color: red, note: "коментар" }`
+  (rarity: common / rare / epic / legendary / mythic / event; color: red / blue / white).
+- Поля: `_data/fields.yml`.
+
 ## 👥 Як дати друзям редагувати
 
 На GitHub: **Settings → Collaborators → Add people** і введи їхній нік.

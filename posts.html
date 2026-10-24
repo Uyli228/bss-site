@@ -3,15 +3,17 @@ layout: default
 title: Записи
 permalink: /posts/
 ---
-<h1 class="page-title">Записи</h1>
-<p class="lead">Таблиці, гайди та все інше, що ми накидали. Тисни на категорію, щоб відфільтрувати.</p>
+<div class="page-head">
+  <h1>Записи</h1>
+  <p>Гайди, таблиці та все, що ми накидали. Новий запис — це файл у папці <code>_posts</code>.</p>
+</div>
 
 <div class="toolbar">
-  <input class="search" type="search" placeholder="Пошук за назвою…" data-search>
-  <div class="filters" data-filters>
-    <button class="filter active" data-cat="all">Усі</button>
+  <label class="search">{% include icon.html name="search" %}<input type="search" placeholder="Пошук за назвою чи текстом…" data-search></label>
+  <div class="chips" data-filters>
+    <button class="chip-btn active" data-cat="all">Усі</button>
     {% for c in site.categories_meta %}
-      <button class="filter" data-cat="{{ c[0] }}">{{ c[1] }} {{ c[0] }}</button>
+      <button class="chip-btn" data-cat="{{ c[0] }}"><i class="dot" style="background:{{ c[1] }}"></i>{{ c[0] }}</button>
     {% endfor %}
   </div>
 </div>

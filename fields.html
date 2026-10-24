@@ -1,0 +1,32 @@
+---
+layout: default
+title: Поля
+permalink: /fields/
+description: Усі поля Bee Swarm Simulator по зонах — скільки бджіл треба і які там квіти.
+---
+<div class="page-head">
+  <h1>Поля</h1>
+  <p>Поля по зонах: скільки бджіл треба, щоб пройти у ворота, і якого кольору там квіти. Дані — у файлі <code>_data/fields.yml</code>.</p>
+</div>
+
+{% for z in site.data.fields %}
+<section class="zone">
+  <div class="zone-head">
+    <h2>{{ z.zone }}</h2>
+    <span class="zone-req">{% if z.bees == 0 %}з самого старту{% else %}від {{ z.bees }} 🐝{% endif %}</span>
+  </div>
+  <div class="field-grid">
+    {% for f in z.fields %}
+    <div class="panel field">
+      <span class="emoji">{{ f.emoji }}</span>
+      <div>
+        <b>{{ f.name }}</b>
+        <span class="badge {{ f.color }}">{{ site.data.labels.field_color[f.color] }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<div class="panel howto">{% include icon.html name="book" %}<span>Дані можуть змінюватись з оновленнями гри. Якщо щось не так — виправ у <code>_data/fields.yml</code>.</span></div>

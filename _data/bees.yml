@@ -1,0 +1,56 @@
+# Список бджіл. Щоб додати бджолу — скопіюй рядок і зміни.
+# rarity: common / rare / epic / legendary / mythic / event
+# color:  red / blue / white
+# note:   короткий коментар (необов'язково)
+
+- { name: "Basic Bee",     rarity: common,    color: white }
+
+- { name: "Bomber Bee",    rarity: rare,      color: white }
+- { name: "Brave Bee",     rarity: rare,      color: white }
+- { name: "Bumble Bee",    rarity: rare,      color: blue }
+- { name: "Cool Bee",      rarity: rare,      color: blue }
+- { name: "Hasty Bee",     rarity: rare,      color: white }
+- { name: "Looker Bee",    rarity: rare,      color: white }
+- { name: "Rad Bee",       rarity: rare,      color: red }
+- { name: "Rascal Bee",    rarity: rare,      color: red }
+- { name: "Stubborn Bee",  rarity: rare,      color: white }
+
+- { name: "Bubble Bee",    rarity: epic,      color: blue }
+- { name: "Bucko Bee",     rarity: epic,      color: blue }
+- { name: "Commander Bee", rarity: epic,      color: white }
+- { name: "Demo Bee",      rarity: epic,      color: white }
+- { name: "Exhausted Bee", rarity: epic,      color: white }
+- { name: "Fire Bee",      rarity: epic,      color: red }
+- { name: "Frosty Bee",    rarity: epic,      color: blue }
+- { name: "Honey Bee",     rarity: epic,      color: white }
+- { name: "Rage Bee",      rarity: epic,      color: red }
+- { name: "Riley Bee",     rarity: epic,      color: red }
+- { name: "Shocked Bee",   rarity: epic,      color: white }
+
+- { name: "Baby Bee",      rarity: legendary, color: white }
+- { name: "Carpenter Bee", rarity: legendary, color: white }
+- { name: "Demon Bee",     rarity: legendary, color: red }
+- { name: "Diamond Bee",   rarity: legendary, color: blue }
+- { name: "Lion Bee",      rarity: legendary, color: white }
+- { name: "Music Bee",     rarity: legendary, color: white }
+- { name: "Ninja Bee",     rarity: legendary, color: blue }
+- { name: "Shy Bee",       rarity: legendary, color: red }
+
+- { name: "Buoyant Bee",   rarity: mythic,    color: blue }
+- { name: "Fuzzy Bee",     rarity: mythic,    color: white }
+- { name: "Precise Bee",   rarity: mythic,    color: red }
+- { name: "Spicy Bee",     rarity: mythic,    color: red }
+- { name: "Tadpole Bee",   rarity: mythic,    color: blue }
+- { name: "Vector Bee",    rarity: mythic,    color: white }
+
+- { name: "Bear Bee",      rarity: event,     color: white }
+- { name: "Cobalt Bee",    rarity: event,     color: blue }
+- { name: "Crimson Bee",   rarity: event,     color: red }
+- { name: "Digital Bee",   rarity: event,     color: white }
+- { name: "Festive Bee",   rarity: event,     color: red }
+- { name: "Gummy Bee",     rarity: event,     color: white }
+- { name: "Photon Bee",    rarity: event,     color: white }
+- { name: "Puppy Bee",     rarity: event,     color: white }
+- { name: "Tabby Bee",     rarity: event,     color: white }
+- { name: "Vicious Bee",   rarity: event,     color: blue }
+- { name: "Windy Bee",     rarity: event,     color: white }
