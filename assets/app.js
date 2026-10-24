@@ -173,8 +173,53 @@ function imageSources(dt) {
     const urls = [...doc.querySelectorAll('img')].map((img) => img.getAttribute('data-src') || img.getAttribute('src')).filter((u) => /^https?:/.test(u || ''));
     if (urls.length) return [...new Set(urls)].map((u) => ({ url: cleanImageUrl(u), name: nameFromUrl(u) }));
   }
-  const uri = (dt.getData('text/uri-list') || dt.getData('text/plain') || '').split('\n').map((s) => s.trim()).filter((s) => /^https?:\/\//.test(s));
+  const uri = (dt.getData('text/uri-list') || dt.getData('text/plain') || '').split('\n').map((s) => s.trim())
+    .filter((s) => /^https?:\/\//.test(s) && (/\.(png|jpe?g|gif|webp|svg)(\/|\?|$)/i.test(s) || s.includes('static.wikia')));
   return uri.map((u) => ({ url: cleanImageUrl(u), name: nameFromUrl(u) }));
+}
+
+const mdImage = (x) => `![${x.title}](${x.path})`;
+
+// Щойно завантажені картинки ще не опубліковані — показуємо їх з пам'яті
+function fixLocalImages(root) {
+  root.querySelectorAll('img').forEach((img) => {
+    const s = img.getAttribute('src');
+    if (state.localImages[s]) img.src = state.localImages[s];
+  });
+  return root;
+}
+
+// Поле приймає картинки: перетягування й Ctrl+V
+function acceptImages(el, onImages) {
+  el.addEventListener('dragover', (e) => {
+    if (!hasImageData(e.dataTransfer)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    el.classList.add('drop-hover');
+  });
+  el.addEventListener('dragleave', () => el.classList.remove('drop-hover'));
+  el.addEventListener('drop', async (e) => {
+    el.classList.remove('drop-hover');
+    const sources = imageSources(e.dataTransfer);
+    if (!sources.length) return;
+    e.preventDefault();
+    e.stopPropagation();
+    onImages(await storeImages(sources));
+  });
+  el.addEventListener('paste', async (e) => {
+    const sources = imageSources(e.clipboardData).filter((s) => s.file);
+    if (!sources.length) return;
+    e.preventDefault();
+    onImages(await storeImages(sources));
+  });
+}
+
+function insertAtCursor(ta, text) {
+  const before = ta.value.slice(0, ta.selectionStart);
+  const pad = before && !before.endsWith('\n') ? '\n\n' : '';
+  ta.setRangeText(pad + text + '\n', ta.selectionStart, ta.selectionEnd, 'end');
+  ta.dispatchEvent(new Event('input'));
+  ta.focus();
 }
 
 // Зберігає картинку в репозиторій. Якщо сайт не дає її скачати — лишає пряме посилання.
@@ -403,6 +448,7 @@ function renderSub(cat, sub) {
       );
       if (b.type === 'cards') el._onDrop = (imgs) => b.items.push(...imgs.map((x) => ({ image: x.path, title: x.title, subtitle: '' })));
       if (b.type === 'image') el._onDrop = (imgs) => { b.image = imgs[0].path; };
+      if (b.type === 'text') el._onDrop = (imgs) => { b.text = (b.text ? b.text.trimEnd() + '\n\n' : '') + imgs.map(mdImage).join('\n\n') + '\n'; };
       return el;
     }),
     state.editing ? h('div', { class: 'add-block' },
@@ -435,7 +481,7 @@ const BLOCK_TYPES = [
 function renderBlock(b) {
   switch (b.type) {
     case 'text':
-      return h('div', { class: 'prose', html: DOMPurify.sanitize(marked.parse(b.text || ''), { ADD_ATTR: ['target'] }) });
+      return fixLocalImages(h('div', { class: 'prose', html: DOMPurify.sanitize(marked.parse(b.text || ''), { ADD_ATTR: ['target'] }) }));
     case 'image':
       return b.image ? h('figure', {}, h('img', { src: imgUrl(b.image), alt: b.caption || '', class: 'zoomable', onclick: () => lightbox(b.image) }), b.caption ? h('figcaption', {}, b.caption) : null) : h('p', { class: 'muted' }, 'Немає картинки');
     case 'cards':
@@ -459,7 +505,9 @@ function renderBlock(b) {
 function renderTable(rows) {
   if (!rows.length) return null;
   const [head, ...body] = rows;
-  const tbody = h('tbody', {}, body.map((r) => h('tr', {}, head.map((_, i) => h('td', {}, r[i] || '')))));
+  // У клітинках працює короткий markdown: **жирний**, [посилання](...), ![картинка](...)
+  const cell = (text) => fixLocalImages(h('td', { html: DOMPurify.sanitize(marked.parseInline(text || ''), { ADD_ATTR: ['target'] }) }));
+  const tbody = h('tbody', {}, body.map((r) => h('tr', {}, head.map((_, i) => cell(r[i])))));
   let sortCol = -1, dir = 1;
   const ths = head.map((c, i) => h('th', { onclick: () => {
     dir = sortCol === i ? -dir : 1; sortCol = i;
@@ -556,7 +604,25 @@ function imagePicker(value, onChange, allowIcon) {
 function field(f, values) {
   let input;
   if (f.type === 'image') input = imagePicker(values[f.key], (v) => (values[f.key] = v));
-  else if (f.type === 'textarea') input = h('textarea', { rows: f.rows || 3, oninput: (e) => (values[f.key] = e.target.value) }, values[f.key] || '');
+  else if (f.type === 'textarea') {
+    input = h('textarea', { rows: f.rows || 3, oninput: (e) => (values[f.key] = e.target.value) }, values[f.key] || '');
+    if (f.images) {
+      const ta = input;
+      const put = (imgs) => insertAtCursor(ta, imgs.map(mdImage).join('\n\n'));
+      acceptImages(ta, put);
+      const file = h('input', { type: 'file', accept: 'image/*', multiple: true, hidden: true, onchange: async () => {
+        const files = [...file.files];
+        file.value = '';
+        if (files.length) put(await storeImages(files.map((f) => ({ file: f, name: f.name }))));
+      } });
+      input = h('div', { class: 'ta-wrap' },
+        h('div', { class: 'ta-bar' },
+          h('button', { type: 'button', class: 'btn ghost small', onclick: () => file.click() }, '🖼️ Вставити картинку'),
+          h('span', { class: 'muted small' }, 'або перетягни / Ctrl+V прямо в текст'),
+          file),
+        ta);
+    }
+  }
   else input = h('input', { type: 'text', value: values[f.key] || '', placeholder: f.placeholder || '', oninput: (e) => (values[f.key] = e.target.value) });
   return h('label', { class: 'field' + (f.half ? ' half' : '') }, h('span', {}, f.label), f.hint ? h('small', {}, f.hint) : null, input);
 }
@@ -607,7 +673,12 @@ function tableEditor(rows) {
     box.replaceChildren(
       h('div', { class: 'table-ed-scroll' }, h('table', {},
         rows.map((r, ri) => h('tr', { class: ri === 0 ? 'head' : null },
-          r.map((c, ci) => h('td', {}, h('input', { value: c, placeholder: ri === 0 ? 'Заголовок' : '', oninput: (e) => (r[ci] = e.target.value) }))),
+          r.map((c, ci) => {
+            const inp = h('input', { value: c, placeholder: ri === 0 ? 'Заголовок' : '', oninput: (e) => (r[ci] = e.target.value) });
+            // Картинку можна кинути прямо в клітинку
+            if (ri) acceptImages(inp, (imgs) => { r[ci] = (r[ci] ? r[ci] + ' ' : '') + imgs.map((x) => `![${x.title}](${x.path})`).join(' '); inp.value = r[ci]; });
+            return h('td', {}, inp);
+          }),
           h('td', { class: 'ctl' }, ri ? h('button', { type: 'button', class: 'danger', title: 'Видалити рядок', onclick: () => { rows.splice(ri, 1); draw(); } }, '✕') : null)
         )),
         h('tr', {}, Array.from({ length: cols }, (_, ci) => h('td', { class: 'ctl' },
@@ -616,7 +687,7 @@ function tableEditor(rows) {
       h('div', { class: 'pick-actions' },
         h('button', { type: 'button', class: 'btn small', onclick: () => { rows.push(Array(cols).fill('')); draw(); } }, '+ Рядок'),
         h('button', { type: 'button', class: 'btn ghost small', onclick: () => { rows.forEach((r, i) => r.push(i ? '' : 'Колонка')); draw(); } }, '+ Колонка'),
-        h('span', { class: 'muted small' }, 'Перший рядок — заголовки. Можна вставити таблицю з Excel/Google Sheets у першу клітинку.')
+        h('span', { class: 'muted small' }, 'Перший рядок — заголовки. Таблицю з Excel/Google Sheets можна вставити в першу клітинку. Картинку можна перетягнути або вставити Ctrl+V прямо в клітинку.')
       )
     );
     // Вставка таблиці з Excel / Google Sheets
@@ -638,7 +709,7 @@ function editBlock(b, onCreate) {
   const draft = JSON.parse(JSON.stringify(b));
   const type = BLOCK_TYPES.find((t) => t.type === b.type);
   const parts = [field({ key: 'heading', label: 'Заголовок блоку (необов\'язково)' }, draft)];
-  if (b.type === 'text') parts.push(field({ key: 'text', label: 'Текст', type: 'textarea', rows: 12, hint: '**жирний**, *курсив*, ## Заголовок, - список, [посилання](https://...)' }, draft));
+  if (b.type === 'text') parts.push(field({ key: 'text', label: 'Текст', type: 'textarea', rows: 12, images: true, hint: '**жирний**, *курсив*, ## Заголовок, - список, [посилання](https://...), картинка: ![опис](адреса)' }, draft));
   if (b.type === 'image') parts.push(field({ key: 'image', label: 'Картинка', type: 'image' }, draft), field({ key: 'caption', label: 'Підпис' }, draft));
   if (b.type === 'cards') parts.push(h('div', { class: 'field' }, h('span', {}, 'Картки'), listEditor(draft.items, [
     { key: 'image', label: 'Картинка', type: 'image' },

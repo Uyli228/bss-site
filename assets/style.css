@@ -240,6 +240,11 @@ a.mini-card img { cursor: pointer; }
 .pick-url:focus { border-color: var(--accent); }
 .drop-hover { outline: 3px dashed var(--accent) !important; outline-offset: 4px; }
 .page.drop-hover { outline-offset: 12px; border-radius: 16px; }
+.ta-wrap { display: flex; flex-direction: column; gap: 8px; }
+.ta-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+textarea.drop-hover, .table-ed input.drop-hover { outline-offset: 2px; }
+.prose img { display: block; margin: 14px 0; max-height: 420px; }
+.table-wrap td img { height: 44px; width: auto; vertical-align: middle; border-radius: 6px; margin-right: 6px; }
 .drop-hint { width: 100%; margin: 6px 0 0; color: var(--muted); font-size: .9rem; }
 
 .list-ed { display: flex; flex-direction: column; gap: 10px; }
