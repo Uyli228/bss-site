@@ -60,126 +60,19 @@
       "description": "синя пильця топ а червоні сосуть хуй",
       "subs": [
         {
-          "id": "all-fields",
-          "title": "Усі поля",
-          "icon": "🗺️",
-          "description": "Таблиця всіх полів. Натисни на заголовок колонки, щоб відсортувати.",
+          "id": "mvmgov1glopo",
+          "title": "Петали",
+          "description": "",
+          "icon": "📄",
           "blocks": [
             {
-              "type": "table",
-              "heading": "",
-              "rows": [
-                [
-                  "Поле",
-                  "Бджіл треба",
-                  "Квіти",
-                  "Зона"
-                ],
-                [
-                  "🌻 Sunflower Field",
-                  "0",
-                  "Білі",
-                  "Стартова зона"
-                ],
-                [
-                  "🌼 Dandelion Field",
-                  "0",
-                  "Білі",
-                  "Стартова зона"
-                ],
-                [
-                  "🍄 Mushroom Field",
-                  "0",
-                  "Червоні",
-                  "Стартова зона"
-                ],
-                [
-                  "💠 Blue Flower Field",
-                  "0",
-                  "Сині",
-                  "Стартова зона"
-                ],
-                [
-                  "🍀 Clover Field",
-                  "0",
-                  "Змішані",
-                  "Стартова зона"
-                ],
-                [
-                  "🕷️ Spider Field",
-                  "5",
-                  "Білі",
-                  "Зона 5 бджіл"
-                ],
-                [
-                  "🎋 Bamboo Field",
-                  "5",
-                  "Сині",
-                  "Зона 5 бджіл"
-                ],
-                [
-                  "🍓 Strawberry Field",
-                  "5",
-                  "Червоні",
-                  "Зона 5 бджіл"
-                ],
-                [
-                  "🍍 Pineapple Patch",
-                  "10",
-                  "Білі",
-                  "Зона 10 бджіл"
-                ],
-                [
-                  "🪵 Stump Field",
-                  "10",
-                  "Змішані",
-                  "Зона 10 бджіл"
-                ],
-                [
-                  "🌵 Cactus Field",
-                  "15",
-                  "Змішані",
-                  "Зона 15 бджіл"
-                ],
-                [
-                  "🎃 Pumpkin Patch",
-                  "15",
-                  "Білі",
-                  "Зона 15 бджіл"
-                ],
-                [
-                  "🌲 Pine Tree Forest",
-                  "15",
-                  "Сині",
-                  "Зона 15 бджіл"
-                ],
-                [
-                  "🌹 Rose Field",
-                  "15",
-                  "Червоні",
-                  "Зона 15 бджіл"
-                ],
-                [
-                  "⛰️ Mountain Top Field",
-                  "25",
-                  "Змішані",
-                  "Зона 25 бджіл"
-                ],
-                [
-                  "🥥 Coconut Field",
-                  "35",
-                  "Білі",
-                  "Зона 35 бджіл"
-                ],
-                [
-                  "🌶️ Pepper Patch",
-                  "35",
-                  "Червоні",
-                  "Зона 35 бджіл"
-                ]
-              ]
+              "type": "image",
+              "heading": "ПЕТАЛИ ПО ПОЛЯМ",
+              "image": "uploads/mvmhmhxl-image.webp",
+              "caption": ""
             }
-          ]
+          ],
+          "image": "uploads/mvmgpluo-spirit-petal.webp"
         }
       ],
       "image": "uploads/mvmg67em-hivesticker-pine-tree-forest-stamp.webp"
