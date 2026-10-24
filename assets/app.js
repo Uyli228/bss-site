@@ -320,6 +320,7 @@ function render() {
   const sub = (cat.subs || []).find((s) => s.id === r.sub);
   if (!sub) return main.append(notFound());
   main.append(renderSub(cat, sub));
+  requestAnimationFrame(applyFocus);
 }
 
 function notFound() {
@@ -441,7 +442,7 @@ function renderSub(cat, sub) {
     ),
     sub.blocks.length || state.editing ? null : h('p', { class: 'empty' }, 'Тут поки порожньо 🐝'),
     sub.blocks.map((b, i) => {
-      const el = h('section', { class: 'block block-' + b.type },
+      const el = h('section', { class: 'block block-' + b.type, 'data-block': i },
         tools(sub.blocks, i, () => editBlock(b), 'цей блок'),
         b.heading ? h('h2', { class: 'block-title' }, b.heading) : null,
         renderBlock(b)
@@ -489,7 +490,7 @@ function renderBlock(b) {
     case 'image':
       return b.image ? h('figure', {}, h('img', { src: imgUrl(b.image), alt: b.caption || '', class: 'zoomable', onclick: () => lightbox(b.image) }), b.caption ? h('figcaption', {}, b.caption) : null) : h('p', { class: 'muted' }, 'Немає картинки');
     case 'cards':
-      return h('div', { class: 'mini-cards' }, (b.items || []).map((it) => h(it.url ? 'a' : 'div', { class: 'mini-card', href: it.url || null, target: it.url ? '_blank' : null, rel: it.url ? 'noopener' : null },
+      return h('div', { class: 'mini-cards' }, (b.items || []).map((it, j) => h(it.url ? 'a' : 'div', { class: 'mini-card', 'data-item': j, href: it.url || null, target: it.url ? '_blank' : null, rel: it.url ? 'noopener' : null },
         it.image ? h('img', { src: imgUrl(it.image), alt: '', loading: 'lazy', onclick: it.url ? null : () => lightbox(it.image) }) : h('div', { class: 'mini-emoji' }, it.icon || '🐝'),
         h('b', {}, it.title),
         it.subtitle ? h('span', {}, it.subtitle) : null
@@ -497,8 +498,8 @@ function renderBlock(b) {
     case 'table':
       return renderTable(b.rows || []);
     case 'links':
-      return h('div', { class: 'links' }, (b.items || []).map((l) => {
-        const row = h('a', { class: 'link-row', href: l.url, target: '_blank', rel: 'noopener' },
+      return h('div', { class: 'links' }, (b.items || []).map((l, j) => {
+        const row = h('a', { class: 'link-row', 'data-item': j, href: l.url, target: '_blank', rel: 'noopener' },
           l.image ? h('img', { class: 'link-img', src: imgUrl(l.image), alt: '', loading: 'lazy' }) : h('span', { class: 'link-ic' }, l.icon || '🔗'),
           h('span', { class: 'link-text' }, h('b', {}, l.title), l.note ? h('small', {}, l.note) : null),
           h('span', { class: 'chev' }, '↗')
@@ -515,7 +516,7 @@ function renderTable(rows) {
   const [head, ...body] = rows;
   // У клітинках працює короткий markdown: **жирний**, [посилання](...), ![картинка](...)
   const cell = (text) => fixLocalImages(h('td', { html: DOMPurify.sanitize(marked.parseInline(text || ''), { ADD_ATTR: ['target'] }) }));
-  const tbody = h('tbody', {}, body.map((r) => h('tr', {}, head.map((_, i) => cell(r[i])))));
+  const tbody = h('tbody', {}, body.map((r, j) => h('tr', { 'data-item': j }, head.map((_, i) => cell(r[i])))));
   let sortCol = -1, dir = 1;
   const ths = head.map((c, i) => h('th', { onclick: () => {
     dir = sortCol === i ? -dir : 1; sortCol = i;
@@ -788,6 +789,165 @@ function logout() {
   updateAdminBar();
   loadContent().then(render);
 }
+
+/* ---------- Пошук по сайту ---------- */
+const norm = (s) => (s || '').toLowerCase().replace(/ё/g, 'е');
+
+// Markdown → простий текст для пошуку й уривків
+const plain = (s) => (s || '')
+  .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+  .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+  .replace(/[*_`>#|]+/g, ' ')
+  .replace(/^\s*[-+]\s+/gm, '')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+function buildIndex() {
+  const out = [];
+  for (const cat of state.content.categories) {
+    out.push({ title: cat.title, text: cat.description, path: 'Розділ', href: '#/c/' + cat.id, item: cat, rank: 3 });
+    for (const sub of cat.subs || []) {
+      const href = `#/c/${cat.id}/${sub.id}`;
+      const path = cat.title;
+      const where = cat.title + ' › ' + sub.title;
+      out.push({ title: sub.title, text: sub.description, path, href, item: sub, rank: 2 });
+      (sub.blocks || []).forEach((b, bi) => {
+        const focus = (item) => ({ block: bi, item });
+        if (b.type === 'text') out.push({ title: b.heading || sub.title, text: plain(b.text), path: where, href, focus: focus(), icon: '📝' });
+        if (b.type === 'image' && (b.caption || b.heading)) out.push({ title: b.caption || b.heading, text: b.heading, path: where, href, focus: focus(), item: { image: b.image } });
+        if (b.type === 'cards') (b.items || []).forEach((it, j) => out.push({ title: it.title, text: [it.subtitle, b.heading].filter(Boolean).join(' · '), path: where, href, focus: focus(j), item: it }));
+        if (b.type === 'links') (b.items || []).forEach((l, j) => out.push({ title: l.title, text: [l.note, l.url].filter(Boolean).join(' · '), path: where, href, focus: focus(j), item: l, icon: l.icon || '🔗' }));
+        if (b.type === 'table') {
+          const [head, ...rows] = b.rows || [];
+          rows.forEach((r, j) => {
+            const img = (r.join(' ').match(/!\[[^\]]*\]\(([^)]+)\)/) || [])[1];
+            out.push({ title: plain(r[0]) || plain(r.join(' ')), text: r.slice(1).map((c, i) => head && plain(c) ? `${plain(head[i + 1])}: ${plain(c)}` : plain(c)).filter(Boolean).join(' · '), path: where + (b.heading ? ' › ' + b.heading : ''), href, focus: focus(j), item: img ? { image: img } : null, icon: '📊' });
+          });
+        }
+      });
+    }
+  }
+  return out;
+}
+
+function searchSite(q) {
+  const words = norm(q).split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+  return buildIndex()
+    .map((r) => {
+      const t = norm(r.title), all = t + ' ' + norm(r.text) + ' ' + norm(r.path);
+      if (!words.every((w) => all.includes(w))) return null;
+      let score = (r.rank || 0) + words.filter((w) => t.includes(w)).length * 5;
+      if (t.startsWith(words[0])) score += 3;
+      return { ...r, score };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 40);
+}
+
+// Підсвічує знайдені слова (через DOM, без innerHTML)
+function marked_(text, words) {
+  if (!text) return [];
+  const lower = norm(text);
+  const marks = [];
+  for (const w of words) for (let i = lower.indexOf(w); i !== -1; i = lower.indexOf(w, i + w.length)) marks.push([i, i + w.length]);
+  marks.sort((a, b) => a[0] - b[0]);
+  const parts = [];
+  let pos = 0;
+  for (const [s, e] of marks) {
+    if (s < pos) continue;
+    parts.push(text.slice(pos, s), h('mark', {}, text.slice(s, e)));
+    pos = e;
+  }
+  parts.push(text.slice(pos));
+  return parts;
+}
+
+// Уривок довкола першого збігу
+function snippet(text, words) {
+  if (!text || text.length <= 120) return text;
+  const i = Math.max(0, ...words.map((w) => norm(text).indexOf(w)).filter((x) => x >= 0).slice(0, 1));
+  const start = Math.max(0, i - 50);
+  return (start ? '…' : '') + text.slice(start, start + 120) + (start + 120 < text.length ? '…' : '');
+}
+
+function goTo(href, focus) {
+  state.focus = focus || null;
+  if (location.hash === href) render();
+  else location.hash = href;
+}
+
+function applyFocus() {
+  const f = state.focus;
+  state.focus = null;
+  if (!f || f.block == null) return;
+  const block = document.querySelector(`.block[data-block="${f.block}"]`);
+  if (!block) return;
+  const el = (f.item != null && block.querySelector(`[data-item="${f.item}"]`)) || block;
+  el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 2400);
+}
+
+(function setupSearch() {
+  const box = $('[data-site-search]');
+  const input = box.querySelector('input');
+  const panel = $('[data-search-results]');
+  let results = [], active = 0;
+
+  const close = () => { panel.hidden = true; box.classList.remove('open'); };
+  const pick = (r) => { close(); input.blur(); goTo(r.href, r.focus); };
+
+  function draw() {
+    const q = input.value.trim();
+    if (!q || !state.content) return close();
+    const words = norm(q).split(/\s+/).filter(Boolean);
+    results = searchSite(q);
+    active = 0;
+    panel.replaceChildren(
+      results.length
+        ? h('div', { class: 'sr-count' }, `Знайдено: ${results.length}${results.length === 40 ? '+' : ''}`)
+        : h('div', { class: 'sr-empty' }, 'Нічого не знайдено 🐝'),
+      ...results.map((r, i) => h('a', { class: 'sr-item' + (i === 0 ? ' active' : ''), href: r.href,
+        onclick: (e) => { e.preventDefault(); pick(r); },
+        onmousemove: () => setActive(i) },
+        r.item && r.item.image ? h('img', { class: 'sr-thumb', src: imgUrl(r.item.image), alt: '' })
+          : h('span', { class: 'sr-thumb emoji' }, (r.item && r.item.icon) || r.icon || '📄'),
+        h('span', { class: 'sr-text' },
+          h('b', {}, marked_(r.title, words)),
+          h('small', { class: 'sr-path' }, r.path),
+          r.text ? h('small', {}, marked_(snippet(r.text, words), words)) : null
+        )
+      ))
+    );
+    panel.hidden = false;
+    box.classList.add('open');
+  }
+
+  function setActive(i) {
+    const items = panel.querySelectorAll('.sr-item');
+    if (!items.length) return;
+    active = (i + items.length) % items.length;
+    items.forEach((el, j) => el.classList.toggle('active', j === active));
+    items[active].scrollIntoView({ block: 'nearest' });
+  }
+
+  input.addEventListener('input', draw);
+  input.addEventListener('focus', () => input.value.trim() && draw());
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+    else if (e.key === 'Enter' && results[active]) { e.preventDefault(); pick(results[active]); }
+    else if (e.key === 'Escape') { input.value = ''; close(); input.blur(); }
+  });
+  document.addEventListener('mousedown', (e) => { if (!box.contains(e.target)) close(); });
+  // «/» або Ctrl+K — перейти до пошуку
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input, textarea, [contenteditable]')) return;
+    if (e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); input.focus(); input.select(); }
+  });
+})();
 
 /* ---------- Старт ---------- */
 $('[data-fab]').addEventListener('click', () => (state.token ? enterEditing() : loginDialog()));
