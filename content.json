@@ -146,7 +146,20 @@
           "title": "Червоні гайди",
           "description": "",
           "icon": "📄",
-          "blocks": [],
+          "blocks": [
+            {
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "Red Hive Guide+rbc guide",
+                  "url": "https://docs.google.com/document/d/1ApkRGYRlxL-FVz_QE1TiSN4lOsqT8JZ_ObSDaunV7Ms/edit?usp=drivesdk",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
+            }
+          ],
           "image": "uploads/mvmi22iw-hivesticker-dark-scythe.webp"
         },
         {
@@ -154,7 +167,32 @@
           "title": "Білі гайди",
           "description": "",
           "icon": "📄",
-          "blocks": [],
+          "blocks": [
+            {
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "White Hive Guide",
+                  "url": "https://docs.google.com/document/d/1Jel8p6Rb95w_Te5ZUqvWKT6-0ew67kHCUfdbV_WSV7E/edit?tab=t.0",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
+            },
+            {
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "White RBC Guide",
+                  "url": "https://docs.google.com/document/d/1Bg5TnGf-sJBu4hEmjsJG6-bvNZVC7PjAfKQ-gWTFCNk/edit?usp=sharing",
+                  "icon": "🔗",
+                  "note": ""
+                }
+              ]
+            }
+          ],
           "image": "uploads/mvmi2aca-hivesticker-gummyballer.webp"
         }
       ],
