@@ -28,7 +28,8 @@
                   "title": "Ціни",
                   "url": "https://bssmvalues.com/values/beequips",
                   "icon": "🔗",
-                  "note": ""
+                  "note": "",
+                  "image": "uploads/mvmgnt0k-signsicon.png"
                 }
               ]
             },
@@ -40,7 +41,8 @@
                   "title": "",
                   "url": "https://bssmvalues.com/wax",
                   "icon": "",
-                  "note": ""
+                  "note": "",
+                  "image": "uploads/mvmgo8i7-debug-wax.webp"
                 }
               ]
             }
