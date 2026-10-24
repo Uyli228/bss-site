@@ -5,7 +5,7 @@ layout: default
 <article class="panel post">
   <a class="back" href="{{ '/posts/' | relative_url }}">{% include icon.html name="arrow" %}Усі записи</a>
   <header class="post-head">
-    <span class="badge" style="background:{{ site.categories_meta[cat] | default: '#9a6bd8' }};color:#fff">{{ cat }}</span>
+    <span class="badge" style="--dot:{{ site.categories_meta[cat] | default: '#9a6bd8' }}">{{ cat }}</span>
     <h1>{{ page.title }}</h1>
     <p class="meta">{{ page.date | date: "%d.%m.%Y" }}{% if page.author %} · {{ page.author }}{% endif %}</p>
   </header>

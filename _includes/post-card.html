@@ -10,7 +10,7 @@
     <h3>{{ include.post.title }}</h3>
     {% if include.post.description %}<p>{{ include.post.description }}</p>{% endif %}
     <div class="card-meta">
-      <span class="badge" style="background:{{ cat_color }};color:#fff">{{ cat }}</span>
+      <span class="badge" style="--dot:{{ cat_color }}">{{ cat }}</span>
       <span>{{ include.post.date | date: "%d.%m.%Y" }}</span>
     </div>
   </div>

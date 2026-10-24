@@ -13,7 +13,7 @@ description: Усі поля Bee Swarm Simulator по зонах — скіль�
 <section class="zone">
   <div class="zone-head">
     <h2>{{ z.zone }}</h2>
-    <span class="zone-req">{% if z.bees == 0 %}з самого старту{% else %}від {{ z.bees }} 🐝{% endif %}</span>
+    <span class="zone-req">{% if z.bees == 0 %}з самого старту{% else %}від {{ z.bees }} бджіл{% endif %}</span>
   </div>
   <div class="field-grid">
     {% for f in z.fields %}

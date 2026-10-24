@@ -35,7 +35,6 @@ description: Усі основні бджоли Bee Swarm Simulator з рідк�
 <div class="bee-grid" data-bees>
   {% for b in site.data.bees %}
   <div class="panel bee" data-rarity="{{ b.rarity }}" data-color="{{ b.color }}">
-    {% include bee-avatar.html color=b.color %}
     <b>{{ b.name }}</b>
     <div class="tags">
       <span class="badge {{ b.rarity }}">{{ site.data.labels.rarity[b.rarity] }}</span>
