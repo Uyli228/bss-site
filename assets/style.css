@@ -143,6 +143,7 @@ a.mini-card img { cursor: pointer; }
 .link-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; color: var(--text); text-decoration: none; transition: border-color .15s; }
 .link-row:hover { border-color: var(--accent); }
 .link-ic { font-size: 1.4rem; width: 32px; text-align: center; }
+.link-img { width: 40px; height: 40px; object-fit: contain; flex: none; border-radius: 8px; }
 .link-text { flex: 1; min-width: 0; }
 .link-text b { display: block; font-weight: 800; }
 .link-text small { display: block; color: var(--muted); }

@@ -448,6 +448,10 @@ function renderSub(cat, sub) {
       );
       if (b.type === 'cards') el._onDrop = (imgs) => b.items.push(...imgs.map((x) => ({ image: x.path, title: x.title, subtitle: '' })));
       if (b.type === 'image') el._onDrop = (imgs) => { b.image = imgs[0].path; };
+      if (b.type === 'links') el._onDrop = (imgs) => {
+        b.items.push(...imgs.map((x) => ({ title: x.title, url: 'https://', icon: '', image: x.path, note: '' })));
+        toast('Додано посилання з картинкою — натисни ✎ і впиши адресу');
+      };
       if (b.type === 'text') el._onDrop = (imgs) => { b.text = (b.text ? b.text.trimEnd() + '\n\n' : '') + imgs.map(mdImage).join('\n\n') + '\n'; };
       return el;
     }),
@@ -493,11 +497,15 @@ function renderBlock(b) {
     case 'table':
       return renderTable(b.rows || []);
     case 'links':
-      return h('div', { class: 'links' }, (b.items || []).map((l) => h('a', { class: 'link-row', href: l.url, target: '_blank', rel: 'noopener' },
-        h('span', { class: 'link-ic' }, l.icon || '🔗'),
-        h('span', { class: 'link-text' }, h('b', {}, l.title), l.note ? h('small', {}, l.note) : null),
-        h('span', { class: 'chev' }, '↗')
-      )));
+      return h('div', { class: 'links' }, (b.items || []).map((l) => {
+        const row = h('a', { class: 'link-row', href: l.url, target: '_blank', rel: 'noopener' },
+          l.image ? h('img', { class: 'link-img', src: imgUrl(l.image), alt: '', loading: 'lazy' }) : h('span', { class: 'link-ic' }, l.icon || '🔗'),
+          h('span', { class: 'link-text' }, h('b', {}, l.title), l.note ? h('small', {}, l.note) : null),
+          h('span', { class: 'chev' }, '↗')
+        );
+        row._onDrop = (imgs) => { l.image = imgs[0].path; };
+        return row;
+      }));
   }
   return null;
 }
@@ -720,6 +728,7 @@ function editBlock(b, onCreate) {
   ], 'Додати картку', () => ({ image: '', title: '', subtitle: '' }))));
   if (b.type === 'table') parts.push(h('div', { class: 'field' }, h('span', {}, 'Таблиця'), tableEditor(draft.rows)));
   if (b.type === 'links') parts.push(h('div', { class: 'field' }, h('span', {}, 'Посилання'), listEditor(draft.items, [
+    { key: 'image', label: 'Картинка (замість емодзі, необов\'язково)', type: 'image' },
     { key: 'title', label: 'Назва', half: true },
     { key: 'icon', label: 'Емодзі', half: true },
     { key: 'url', label: 'Адреса (https://...)' },
