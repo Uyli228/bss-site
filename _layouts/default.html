@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="{{ '/' | relative_url }}">
+        <img src="{{ '/assets/img/favicon.svg' | relative_url }}" alt="" width="34" height="34">
+        <span>{{ site.title }}</span>
+      </a>
+      <button class="menu-btn" aria-label="Меню" onclick="document.body.classList.toggle('menu-open')">☰</button>
+      <nav class="nav">
+        {% assign p = page.url %}
+        <a href="{{ '/' | relative_url }}" {% if p == '/' %}class="active"{% endif %}>Головна</a>
+        <a href="{{ '/posts/' | relative_url }}" {% if p contains '/posts/' %}class="active"{% endif %}>Записи</a>
+        <a href="{{ '/gallery/' | relative_url }}" {% if p == '/gallery/' %}class="active"{% endif %}>Галерея</a>
+        <a href="{{ '/links/' | relative_url }}" {% if p == '/links/' %}class="active"{% endif %}>Посилання</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      🐝 Зроблено для своїх. Сайт фанатський і не пов'язаний з Onett чи Roblox.
+    </div>
+  </footer>
+
+  <script src="{{ '/assets/js/site.js' | relative_url }}"></script>
+</body>
+</html>

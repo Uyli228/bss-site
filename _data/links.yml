@@ -1,0 +1,30 @@
+# Корисні посилання. Перша група також показується на головній.
+# Формат:
+# - group: Назва групи
+#   items:
+#     - name: Назва
+#       url: https://...
+#       icon: "🐝"          (необов'язково)
+#       note: Короткий опис (необов'язково)
+
+- group: Основне
+  items:
+    - name: Грати в Bee Swarm Simulator
+      url: https://www.roblox.com/games/1537690962/Bee-Swarm-Simulator
+      icon: "🎮"
+      note: Сторінка гри на Roblox
+    - name: Bee Swarm Simulator Wiki
+      url: https://bee-swarm-simulator.fandom.com/wiki/Bee_Swarm_Simulator_Wiki
+      icon: "📚"
+      note: Бджоли, поля, квести, предмети
+    - name: Коди (Wiki)
+      url: https://bee-swarm-simulator.fandom.com/wiki/Codes
+      icon: "🎁"
+      note: Актуальні промокоди
+
+- group: Наша компанія
+  items:
+    - name: Додай сюди свій Discord
+      url: https://discord.com
+      icon: "💬"
+      note: Відредагуй _data/links.yml

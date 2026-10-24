@@ -1,0 +1,55 @@
+---
+layout: default
+---
+<section class="hero">
+  <div class="hero-text">
+    <h1>Привіт, бджолярі! 🐝</h1>
+    <p>{{ site.description }}</p>
+    <div class="hero-actions">
+      <a class="btn" href="{{ '/posts/' | relative_url }}">Дивитись записи</a>
+      <a class="btn ghost" href="{{ '/links/' | relative_url }}">Корисні посилання</a>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="hex h1">🍯</div>
+    <div class="hex h2">🐝</div>
+    <div class="hex h3">🌻</div>
+    <div class="hex h4">🌹</div>
+    <div class="hex h5">🍍</div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat"><b>{{ site.posts | size }}</b><span>записів</span></div>
+  {% assign imgs = site.static_files | where_exp: "f", "f.path contains '/assets/gallery/'" %}
+  <div class="stat"><b>{{ imgs | size }}</b><span>картинок</span></div>
+  {% assign link_count = 0 %}
+  {% for g in site.data.links %}{% assign link_count = link_count | plus: g.items.size %}{% endfor %}
+  <div class="stat"><b>{{ link_count }}</b><span>посилань</span></div>
+</section>
+
+<section>
+  <div class="section-head">
+    <h2>Свіжі записи</h2>
+    <a href="{{ '/posts/' | relative_url }}">Усі →</a>
+  </div>
+  <div class="grid">
+    {% for post in site.posts limit: 6 %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <h2>Швидкі посилання</h2>
+    <a href="{{ '/links/' | relative_url }}">Усі →</a>
+  </div>
+  <div class="quick-links">
+    {% for group in site.data.links limit: 1 %}
+      {% for l in group.items %}
+        <a class="pill" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.icon | default: "🔗" }} {{ l.name }}</a>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</section>

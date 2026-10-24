@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300">
+  <rect width="480" height="300" fill="#fff4cc"/>
+  <g stroke="#2a1d05" stroke-width="3">
+    <path d="M150 60l40 23v46l-40 23-40-23V83z" fill="#e8483b"/>
+    <path d="M240 60l40 23v46l-40 23-40-23V83z" fill="#3d7be0"/>
+    <path d="M330 60l40 23v46l-40 23-40-23V83z" fill="#f4f1e8"/>
+    <path d="M195 138l40 23v46l-40 23-40-23v-46z" fill="#f5b301"/>
+    <path d="M285 138l40 23v46l-40 23-40-23v-46z" fill="#f5b301"/>
+  </g>
+  <text x="240" y="275" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#2a1d05">Приклад: червоний · синій · білий</text>
+</svg>

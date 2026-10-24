@@ -1,0 +1,24 @@
+---
+layout: default
+title: Записи
+permalink: /posts/
+---
+<h1 class="page-title">Записи</h1>
+<p class="lead">Таблиці, гайди та все інше, що ми накидали. Тисни на категорію, щоб відфільтрувати.</p>
+
+<div class="toolbar">
+  <input class="search" type="search" placeholder="Пошук за назвою…" data-search>
+  <div class="filters" data-filters>
+    <button class="filter active" data-cat="all">Усі</button>
+    {% for c in site.categories_meta %}
+      <button class="filter" data-cat="{{ c[0] }}">{{ c[1] }} {{ c[0] }}</button>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="grid" data-posts>
+  {% for post in site.posts %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>
+<p class="empty" data-empty hidden>Нічого не знайшлося 🐝</p>

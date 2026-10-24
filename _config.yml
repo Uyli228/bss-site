@@ -1,0 +1,25 @@
+# Налаштування сайту. Після зміни цього файлу GitHub перебудує сайт за 1-2 хвилини.
+title: "Вулик 🐝"
+description: "Наш спільний сайт по Bee Swarm Simulator: таблиці, гайди, картинки й корисні посилання."
+lang: uk
+
+# Назва репозиторію на GitHub (з косою рискою спереду). Не чіпай, якщо не перейменовуєш репозиторій.
+baseurl: "/bss-site"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+permalink: /posts/:title/
+timezone: Europe/Kyiv
+
+# Категорії записів: назва -> емодзі (використовуються для фільтрів і значків)
+categories_meta:
+  таблиці: "📊"
+  гайди: "📘"
+  новини: "📣"
+  інше: "🍯"
+
+exclude:
+  - README.md

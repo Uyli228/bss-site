@@ -1,0 +1,24 @@
+---
+layout: default
+title: Посилання
+permalink: /links/
+---
+<h1 class="page-title">Корисні посилання</h1>
+<p class="lead">Список живе у файлі <code>_data/links.yml</code> — додай туди рядок, і посилання з'явиться тут.</p>
+
+{% for group in site.data.links %}
+<section class="link-group">
+  <h2>{{ group.group }}</h2>
+  <div class="grid links-grid">
+    {% for l in group.items %}
+      <a class="card link-card" href="{{ l.url }}" target="_blank" rel="noopener">
+        <span class="link-icon">{{ l.icon | default: "🔗" }}</span>
+        <span>
+          <b>{{ l.name }}</b>
+          {% if l.note %}<small>{{ l.note }}</small>{% endif %}
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
