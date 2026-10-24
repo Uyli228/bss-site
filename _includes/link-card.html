@@ -1,8 +1,0 @@
-<a class="panel link-card" href="{{ include.link.url }}" target="_blank" rel="noopener">
-  <span class="link-icon">{{ include.link.icon | default: "🔗" }}</span>
-  <span>
-    <b>{{ include.link.name }}</b>
-    {% if include.link.note %}<small>{{ include.link.note }}</small>{% endif %}
-  </span>
-  {% include icon.html name="arrow" %}
-</a>

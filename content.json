@@ -1,0 +1,664 @@
+{
+  "site": {
+    "title": "Вулик"
+  },
+  "home": {
+    "title": "Обери розділ",
+    "subtitle": "Наш довідник по Bee Swarm Simulator: бджоли, поля, гайди й корисні посилання."
+  },
+  "categories": [
+    {
+      "id": "bees",
+      "title": "Бджоли",
+      "icon": "🐝",
+      "linkText": "Дивитись бджіл",
+      "description": "Усі основні бджоли гри за рідкістю та кольором.",
+      "subs": [
+        {
+          "id": "common",
+          "title": "Звичайні бджоли",
+          "icon": "⚪",
+          "linkText": "Відкрити",
+          "description": "1 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Basic Bee",
+                  "subtitle": "Біла"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rare",
+          "title": "Рідкісні бджоли",
+          "icon": "🔘",
+          "linkText": "Відкрити",
+          "description": "9 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Bomber Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Brave Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Bumble Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Cool Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Hasty Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Looker Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Rad Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Rascal Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Stubborn Bee",
+                  "subtitle": "Біла"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "epic",
+          "title": "Епічні бджоли",
+          "icon": "🟡",
+          "linkText": "Відкрити",
+          "description": "11 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Bubble Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Bucko Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Commander Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Demo Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Exhausted Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Fire Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Frosty Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Honey Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Rage Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Riley Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Shocked Bee",
+                  "subtitle": "Біла"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "legendary",
+          "title": "Легендарні бджоли",
+          "icon": "🔷",
+          "linkText": "Відкрити",
+          "description": "8 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Baby Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Carpenter Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Demon Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Diamond Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Lion Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Music Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Ninja Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Shy Bee",
+                  "subtitle": "Червона"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mythic",
+          "title": "Міфічні бджоли",
+          "icon": "🟣",
+          "linkText": "Відкрити",
+          "description": "6 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Buoyant Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Fuzzy Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Precise Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Spicy Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Tadpole Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Vector Bee",
+                  "subtitle": "Біла"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "event",
+          "title": "Івентові бджоли",
+          "icon": "🟢",
+          "linkText": "Відкрити",
+          "description": "11 бджіл",
+          "blocks": [
+            {
+              "type": "cards",
+              "heading": "",
+              "items": [
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Bear Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Cobalt Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Crimson Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Digital Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔴",
+                  "title": "Festive Bee",
+                  "subtitle": "Червона"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Gummy Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Photon Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Puppy Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Tabby Bee",
+                  "subtitle": "Біла"
+                },
+                {
+                  "image": "",
+                  "icon": "🔵",
+                  "title": "Vicious Bee",
+                  "subtitle": "Синя"
+                },
+                {
+                  "image": "",
+                  "icon": "⚪",
+                  "title": "Windy Bee",
+                  "subtitle": "Біла"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fields",
+      "title": "Поля",
+      "icon": "🌻",
+      "linkText": "Дивитись поля",
+      "description": "Поля по зонах: скільки бджіл треба і які там квіти.",
+      "subs": [
+        {
+          "id": "all-fields",
+          "title": "Усі поля",
+          "icon": "🗺️",
+          "description": "Таблиця всіх полів. Натисни на заголовок колонки, щоб відсортувати.",
+          "blocks": [
+            {
+              "type": "table",
+              "heading": "",
+              "rows": [
+                [
+                  "Поле",
+                  "Бджіл треба",
+                  "Квіти",
+                  "Зона"
+                ],
+                [
+                  "🌻 Sunflower Field",
+                  "0",
+                  "Білі",
+                  "Стартова зона"
+                ],
+                [
+                  "🌼 Dandelion Field",
+                  "0",
+                  "Білі",
+                  "Стартова зона"
+                ],
+                [
+                  "🍄 Mushroom Field",
+                  "0",
+                  "Червоні",
+                  "Стартова зона"
+                ],
+                [
+                  "💠 Blue Flower Field",
+                  "0",
+                  "Сині",
+                  "Стартова зона"
+                ],
+                [
+                  "🍀 Clover Field",
+                  "0",
+                  "Змішані",
+                  "Стартова зона"
+                ],
+                [
+                  "🕷️ Spider Field",
+                  "5",
+                  "Білі",
+                  "Зона 5 бджіл"
+                ],
+                [
+                  "🎋 Bamboo Field",
+                  "5",
+                  "Сині",
+                  "Зона 5 бджіл"
+                ],
+                [
+                  "🍓 Strawberry Field",
+                  "5",
+                  "Червоні",
+                  "Зона 5 бджіл"
+                ],
+                [
+                  "🍍 Pineapple Patch",
+                  "10",
+                  "Білі",
+                  "Зона 10 бджіл"
+                ],
+                [
+                  "🪵 Stump Field",
+                  "10",
+                  "Змішані",
+                  "Зона 10 бджіл"
+                ],
+                [
+                  "🌵 Cactus Field",
+                  "15",
+                  "Змішані",
+                  "Зона 15 бджіл"
+                ],
+                [
+                  "🎃 Pumpkin Patch",
+                  "15",
+                  "Білі",
+                  "Зона 15 бджіл"
+                ],
+                [
+                  "🌲 Pine Tree Forest",
+                  "15",
+                  "Сині",
+                  "Зона 15 бджіл"
+                ],
+                [
+                  "🌹 Rose Field",
+                  "15",
+                  "Червоні",
+                  "Зона 15 бджіл"
+                ],
+                [
+                  "⛰️ Mountain Top Field",
+                  "25",
+                  "Змішані",
+                  "Зона 25 бджіл"
+                ],
+                [
+                  "🥥 Coconut Field",
+                  "35",
+                  "Білі",
+                  "Зона 35 бджіл"
+                ],
+                [
+                  "🌶️ Pepper Patch",
+                  "35",
+                  "Червоні",
+                  "Зона 35 бджіл"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guides",
+      "title": "Гайди",
+      "icon": "📘",
+      "linkText": "Читати гайди",
+      "description": "Поради для новачків і не тільки.",
+      "subs": [
+        {
+          "id": "beginner",
+          "title": "Гайд для новачка",
+          "icon": "🌱",
+          "description": "З чого почати: перші кроки й на що витрачати мед.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "Основний цикл гри",
+              "text": "1. Стаєш на поле і збираєш пилок бджолами та інструментом.\n2. Коли рюкзак повний — біжиш до вулика і перетворюєш пилок на **мед**.\n3. За мед купуєш кращий інструмент, рюкзак і нових бджіл. Більше бджіл — швидше збір — більше меду."
+            },
+            {
+              "type": "text",
+              "heading": "Перші кроки",
+              "text": "- **Бери квести у ведмедів** — вони дають мед, предмети й квитки.\n- **Купуй яйця й нові слоти у вулику.** Кількість бджіл відкриває нові зони: 5, 10, 15, 25 і 35.\n- **Апгрейди рюкзака й інструмента** дають найбільший приріст на старті.\n- **Вводь промокоди** — актуальні є у вікі.\n- **Годуй бджіл** — це підвищує їхній рівень."
+            },
+            {
+              "type": "table",
+              "heading": "Чекліст",
+              "rows": [
+                [
+                  "Ціль",
+                  "Навіщо"
+                ],
+                [
+                  "Купити новий рюкзак",
+                  "Більше пилку за похід"
+                ],
+                [
+                  "Купити кращий інструмент",
+                  "Швидший збір"
+                ],
+                [
+                  "Набрати 5 бджіл",
+                  "Spider, Bamboo, Strawberry"
+                ],
+                [
+                  "Набрати 10 бджіл",
+                  "Pineapple, Stump"
+                ],
+                [
+                  "Набрати 15 бджіл",
+                  "Rose, Pine Tree, Cactus, Pumpkin"
+                ],
+                [
+                  "Ввести всі коди",
+                  "Безкоштовні предмети"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hive-color",
+          "title": "Як вибрати колір вулика",
+          "icon": "🎨",
+          "description": "Червоний, синій чи білий — у чому різниця.",
+          "blocks": [
+            {
+              "type": "image",
+              "heading": "",
+              "image": "uploads/hive-example.svg",
+              "caption": "Червоний · синій · білий"
+            },
+            {
+              "type": "text",
+              "heading": "",
+              "text": "Кожна бджола краще збирає пилок свого кольору, а частина здібностей посилюється, коли у вулику багато бджіл одного кольору. Тому з часом вулик будують під один колір."
+            },
+            {
+              "type": "table",
+              "heading": "Порівняння",
+              "rows": [
+                [
+                  "Колір",
+                  "Сильні сторони",
+                  "Де фармити"
+                ],
+                [
+                  "🔴 Червоний",
+                  "Урон по мобах, швидкий червоний збір",
+                  "Rose, Strawberry, Mushroom, Pepper"
+                ],
+                [
+                  "🔵 Синій",
+                  "Бусти для всього вулика",
+                  "Pine Tree, Bamboo, Blue Flower, Stump"
+                ],
+                [
+                  "⚪ Білий",
+                  "Універсальний, багато меду",
+                  "Pineapple, Sunflower, Coconut, Pumpkin"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "title": "Посилання",
+      "icon": "🔗",
+      "linkText": "Відкрити",
+      "description": "Гра, вікі, коди та наші канали.",
+      "subs": [
+        {
+          "id": "useful",
+          "title": "Корисні посилання",
+          "icon": "⭐",
+          "description": "",
+          "blocks": [
+            {
+              "type": "links",
+              "heading": "",
+              "items": [
+                {
+                  "title": "Грати в Bee Swarm Simulator",
+                  "url": "https://www.roblox.com/games/1537690962/Bee-Swarm-Simulator",
+                  "icon": "🎮",
+                  "note": "Сторінка гри на Roblox"
+                },
+                {
+                  "title": "Bee Swarm Simulator Wiki",
+                  "url": "https://bee-swarm-simulator.fandom.com/wiki/Bee_Swarm_Simulator_Wiki",
+                  "icon": "📚",
+                  "note": "Бджоли, поля, квести, предмети"
+                },
+                {
+                  "title": "Коди (Wiki)",
+                  "url": "https://bee-swarm-simulator.fandom.com/wiki/Codes",
+                  "icon": "🎁",
+                  "note": "Актуальні промокоди"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

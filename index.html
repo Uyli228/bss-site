@@ -1,43 +1,42 @@
----
-layout: default
----
-<section class="hero">
-  <h1>Вулик<span>.</span></h1>
-  <p>{{ site.description }}</p>
-  <div class="hero-actions">
-    <a class="btn" href="{{ '/bees/' | relative_url }}">Бджоли</a>
-    <a class="btn white" href="{{ '/posts/' | relative_url }}">Гайди й таблиці</a>
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Вулик</title>
+  <meta name="description" content="Наш сайт по Bee Swarm Simulator">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=4">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo" href="#/"><img src="assets/favicon.svg" alt="" width="28" height="28"><span data-site-title>Вулик</span></a>
+      <nav class="nav" data-nav></nav>
+    </div>
+  </header>
+
+  <main class="wrap main" data-main>
+    <p class="loading">Завантаження…</p>
+  </main>
+
+  <button class="fab" data-fab title="Редагувати сайт" aria-label="Редагувати сайт">
+    <svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+  </button>
+  <div class="admin-bar" data-admin-bar hidden>
+    <span class="admin-dot"></span>
+    <span data-admin-status>Режим редагування</span>
+    <button class="btn" data-save>Зберегти</button>
+    <button class="btn ghost" data-logout>Вийти</button>
   </div>
-</section>
+  <div class="toast" data-toast hidden></div>
 
-{% assign imgs = site.static_files | where_exp: "f", "f.path contains '/assets/gallery/'" %}
-{% assign field_count = 0 %}{% for z in site.data.fields %}{% assign field_count = field_count | plus: z.fields.size %}{% endfor %}
-{% assign link_count = 0 %}{% for g in site.data.links %}{% assign link_count = link_count | plus: g.items.size %}{% endfor %}
-
-<section class="tiles">
-  <a class="tile" href="{{ '/bees/' | relative_url }}"><b>{{ site.data.bees | size }}</b><span>бджіл</span></a>
-  <a class="tile" href="{{ '/fields/' | relative_url }}"><b>{{ field_count }}</b><span>полів</span></a>
-  <a class="tile" href="{{ '/posts/' | relative_url }}"><b>{{ site.posts | size }}</b><span>записів</span></a>
-  <a class="tile" href="{{ '/gallery/' | relative_url }}"><b>{{ imgs | size }}</b><span>картинок</span></a>
-  <a class="tile" href="{{ '/links/' | relative_url }}"><b>{{ link_count }}</b><span>посилань</span></a>
-</section>
-
-<div class="section-head">
-  <h2>Свіжі записи</h2>
-  <a class="more" href="{{ '/posts/' | relative_url }}">Усі {% include icon.html name="arrow" %}</a>
-</div>
-<div class="grid">
-  {% for post in site.posts limit: 3 %}
-    {% include post-card.html post=post %}
-  {% endfor %}
-</div>
-
-<div class="section-head">
-  <h2>Посилання</h2>
-  <a class="more" href="{{ '/links/' | relative_url }}">Усі {% include icon.html name="arrow" %}</a>
-</div>
-<div class="links-grid">
-  {% for l in site.data.links[0].items %}
-    {% include link-card.html link=l %}
-  {% endfor %}
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="assets/app.js?v=4"></script>
+</body>
+</html>
